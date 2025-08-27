@@ -3,7 +3,7 @@ import React from 'react';
 import Search from './components/search';
 import './index.css';
 import 
-import { buildErrorMessage } from 'vite'; //never read diyo
+//import { buildErrorMessage } from 'vite'; //never read diyo
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 const API_KEY = import.meta.env.VITE_SOMEWHERE_API_KEY;
@@ -21,7 +21,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState([]);
 
   const [ErrorMessage, setErrorMessage] = useState('');
-  const [movieList, setMovieList] = useState([]); //videoda  (initialState:[])
+  const [movieList, setMovieList] = useState(true); //videoda  (initialState:[])
   
   const fetchMovies = async (searchTerm) => {
     setIsLoading(true);
@@ -68,11 +68,21 @@ const App = () => {
           Find <span className="text-gradient">Movies</span> you will enjoy without the hassle.
       </header>
       
-      <section className="all-movies">
-        <h2>All Movies</h2>
-        {errorMessage && <pc className="text-red-500">{errorMessage}</pc>}
-
-      </section>
+        <section className="all-movies">
+          <h2>All Movies</h2>
+          {isLoading ? (
+            <p className="text-white">Loading ... </p>
+          ) : ErrorMessage = (
+            <p className="text-red-500">{errorMessage}</p>
+          ) (
+            <ul>
+              {movieList.map((movie) => (
+                <p key={movie.id} className="text-white">{movie.title}</p>
+                    
+              ))}
+            </ul>
+          )}
+        </section>
         
      
       </div>
