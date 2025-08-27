@@ -16,32 +16,42 @@ const API_OPTIONS = {
   }
 }
 
-
-
-
-
-
 const App = () => {
   const initialState = '';
-  const [searchTerm, setSearchTerm] = useState(initialState);
+  const [searchTerm, setSearchTerm] = useState([]);
 
-  consts[ErrorMessage, setErrorMessage] = useState('');
-
+  const [ErrorMessage, setErrorMessage] = useState('');
+  const [movieList, setMovieList] = useState([]); //videoda  (initialState:[])
   
   const fetchMovies = async (searchTerm) => {
   try {
     const endpoint = `&{API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
-    const response = await fetch(endpoint, API_OPTIONS);
+    const response = await fetch(endpoint, API_OPTIONS); //fetch is a built in javascript function to make api calls
+
+    if(!response.ok){
+      throw new Error('Error to fetch movies');
+    }
+
+    const data = await response.json();
+    
+    if(data.Response === 'False'){
+      setErrorMessage(value.data.Error || 'Failed to fetch movies');
+      setMovieList([]);
+      return;
+    }
+    setMovieList(value.data.results || [] );
 
 
   } catch(error){
     console.error('Error fetching movies: ${error}');
     setErrorMessage('Error fetching movies. Please try again.');
+
   }
 }
 
 
   useEffect(effect: () => {
+    fetchMovies();
 
   }, deps:[]);
 
