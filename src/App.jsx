@@ -24,6 +24,9 @@ const App = () => {
   const [movieList, setMovieList] = useState([]); //videoda  (initialState:[])
   
   const fetchMovies = async (searchTerm) => {
+    setIsLoading(true);
+    setErrorMessage('');
+
   try {
     const endpoint = `&{API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
     const response = await fetch(endpoint, API_OPTIONS); //fetch is a built in javascript function to make api calls
