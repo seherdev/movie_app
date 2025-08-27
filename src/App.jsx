@@ -51,10 +51,14 @@ const App = () => {
           <img src="./icon-main"></img>
           Find <span className="text-gradient">Movies</span> you will enjoy without the hassle.
       </header>
-      <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>  
-      <h1 className="text-white">{searchTerm}
+      
+      <section className="all-movies">
+        <h2>All Movies</h2>
+        {errorMessage && <pc className="text-red-500">{errorMessage}</pc>}
+
+      </section>
         
-      </h1>  
+     
       </div>
     </main>
 
