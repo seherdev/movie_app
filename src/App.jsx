@@ -1,9 +1,9 @@
-import { use, useEffect, useState } from 'react';
+import { /*use,*/ useEffect, useState } from 'react';
 import React from 'react';
 import Search from './components/search';
 import './index.css';
 import { useDebounce } from 'react-use';
-import { databases } from './appwriteConfig';
+//import { databases } from './appwriteConfig';
 
 
 
