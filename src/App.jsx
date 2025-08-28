@@ -5,6 +5,7 @@ import './index.css';
 import { useDebounce } from 'react-use';
 import { databases } from './appwriteConfig';
 
+
  
 //import { buildErrorMessage } from 'vite'; //never read diyo
 
@@ -66,7 +67,7 @@ const App = () => {
     const fetchAppwriteData = async () => {
       try {
         const res = await databases.listDocuments(
-          '68af81ab001b92f33329',
+          '68af81ab001rb92f33329',
           '68af81ab001b92f33329', 
           
         );
