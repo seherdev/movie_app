@@ -38,7 +38,7 @@ a:hover {
 }
 
 body {
-  background-color: rgb(34, 30, 33) !important;
+  background-color: rgb(34, 30, 33) ;
 
   font-family: 'Inter', sans-serif; /*sonradan ekledim*/
   margin: 0;
