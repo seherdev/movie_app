@@ -5,6 +5,8 @@ import './index.css';
 import { useDebounce } from 'react-use';
 //import { databases } from './appwriteConfig';
 import iconMain from './assets/icon-main.png';
+import { Client, Databases, ID, Permission, Role } from 'appwrite';
+
 
 
 
@@ -70,11 +72,11 @@ const App = () => {
 
 
 
-/*
+
   useEffect(() => {
     const fetchMovies = async () => { //??
       try {
-        const res = await databases.listDocuments(
+        const res = await Databases.listDocuments(
           '68af81ab001rb92f33329',
           '68af81ab001b92f33329', 
           
@@ -88,7 +90,7 @@ const App = () => {
     fetchMovies(debouncedSearchTerm);
 
   }, [debouncedSearchTerm]);
-*/
+
 
   return (
     <main>
@@ -128,7 +130,7 @@ const App = () => {
               {movieList.map((movie) => (
                 <li key={movie.imdbID} className="text-white">
                   <img
-                    src={movie.Poster !== 'N/A' ? movie.Poster : './assets/icon-main.png'}
+                    src={movie.Poster !== 'N/A' ? movie.Poster : './assets/no-image.png'}
                     alt={movie.Title}
                     width="100"
                   />
