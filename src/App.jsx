@@ -6,7 +6,7 @@ import { useDebounce } from 'react-use';
 //import { databases } from './appwriteConfig';
 import iconMain from './assets/icon-main.png';
 import { Client, Databases, ID, Permission, Role } from 'appwrite';
-
+import './index.css'
 
 
 
