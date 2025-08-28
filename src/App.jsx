@@ -4,6 +4,8 @@ import Search from './components/search';
 import './index.css';
 import { useDebounce } from 'react-use';
 //import { databases } from './appwriteConfig';
+import iconMain from './assets/icon-main.png';
+
 
 
 
@@ -52,7 +54,7 @@ const App = () => {
       setMovieList([]);
       return;
     }
-    setMovieList(data.results || [] );
+    setMovieList(data.Search || [] );
   } catch(error){
     console.error(`Error fetching movies: ${error}`);
     setErrorMessage('Error fetching movies. Please try again.');
@@ -93,7 +95,8 @@ const App = () => {
       <div className="pattern"/>
       <div className="wrapper">
         <header>
-          <img src="src/assets/icon-main"></img>
+          <img src={iconMain} alt="Logo" />
+
           Find <span className="text-gradient">Movies</span> you will enjoy without the hassle.
       </header>
 
@@ -125,7 +128,7 @@ const App = () => {
               {movieList.map((movie) => (
                 <li key={movie.imdbID} className="text-white">
                   <img
-                    src={movie.Poster !== 'N/A' ? movie.Poster : './no-image.jpg'}
+                    src={movie.Poster !== 'N/A' ? movie.Poster : './assets/icon-main.png'}
                     alt={movie.Title}
                     width="100"
                   />
