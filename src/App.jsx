@@ -2,7 +2,10 @@ import { use, useEffect, useState } from 'react';
 import React from 'react';
 import Search from './components/search';
 import './index.css';
-import 
+import { useDebounce } from 'react-use';
+import { databases } from './appwriteConfig';
+
+ 
 //import { buildErrorMessage } from 'vite'; //never read diyo
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
@@ -17,18 +20,25 @@ const API_OPTIONS = {
 }
 
 const App = () => {
-  const initialState = '';
-  const [searchTerm, setSearchTerm] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [movieList, setMovieList] = useState([]); //videoda  (initialState:[])
+  const [isLoading, setIsLoading] = useState(true);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
-  const [ErrorMessage, setErrorMessage] = useState('');
-  const [movieList, setMovieList] = useState(true); //videoda  (initialState:[])
-  
-  const fetchMovies = async (searchTerm) => {
+
+  //Debounce the search term input to avoid excessive API calls
+  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
+
+
+  const fetchMovies = async (query ='') => {
     setIsLoading(true);
     setErrorMessage('');
 
   try {
-    const endpoint = `&{API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+    const endpoint = query
+    ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+    : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
     const response = await fetch(endpoint, API_OPTIONS); //fetch is a built in javascript function to make api calls
 
     if(!response.ok){
@@ -37,28 +47,38 @@ const App = () => {
 
     const data = await response.json();
     
-    if(data.Response === 'False'){
-      setErrorMessage(value.data.Error || 'Failed to fetch movies');
+    if(data.Response == 'False'){
+      setErrorMessage(data.Error || 'Failed to fetch movies');
       setMovieList([]);
       return;
     }
-    setMovieList(value.data.results || [] );
-
-
+    setMovieList(data.results || [] );
   } catch(error){
-    console.error('Error fetching movies: ${error}');
+    console.error(`Error fetching movies: ${error}`);
     setErrorMessage('Error fetching movies. Please try again.');
-
-  }finally{
-    setIsLoading(true);
+  }finally {
+    setIsLoading(false);
   }
-}
+  }
 
 
-  useEffect(effect: () => {
-    fetchMovies();
+  useEffect(() => {
+    const fetchAppwriteData = async () => {
+      try {
+        const res = await databases.listDocuments(
+          '68af81ab001b92f33329',
+          '68af81ab001b92f33329', 
+          
+        );
+        console.log('appwrite data', res.documents);
+      } catch (error) {
+        console.error('Error fetching Appwrite data:', error);
+      }
+    };
+    
+    fetchMovies(debouncedSearchTerm);
 
-  }, deps:[]);
+  }, [debouncedSearchTerm]);
 
 
   return (
@@ -74,9 +94,10 @@ const App = () => {
           <h2>All Movies</h2>
           {isLoading ? (
             <p className="text-white">Loading ... </p>
-          ) : ErrorMessage = (
+          ) : errorMessage ? (
             <p className="text-red-500">{errorMessage}</p>
-          ) (
+          ) :
+          (
             <ul>
               {movieList.map((movie) => (
                 <p key={movie.id} className="text-white">{movie.title}</p>
@@ -94,4 +115,7 @@ const App = () => {
   )
 
 }
+
+
+
 export default App;
